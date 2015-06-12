@@ -5,10 +5,10 @@ rndSelect _ 0 = return []
 rndSelect [] _ = error "Number of items requested is larger than list"
 rndSelect xs c = randomRIO (0, length xs - 1)
   >>= (\n ->
-    rndSelect (removeAt xs n) (c - 1)
-      >>= (\ys -> return ((xs !! n) : ys))
+    let element = xs !! n
+        in rndSelect (removeAt xs n) (c - 1)
+           >>= return . (:) element
   )
-  -- >>= return . (!!) xs
 
 removeAt :: [a] -> Int -> [a]
 removeAt xs n
